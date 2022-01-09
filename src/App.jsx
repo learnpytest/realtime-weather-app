@@ -11,6 +11,9 @@ import { ReactComponent as AirFlowIcon } from "./images/airFlow.svg";
 import { ReactComponent as RainIcon } from "./images/rain.svg";
 import { ReactComponent as RefreshIcon } from "./images/refresh.svg";
 
+const AUTHORIZATION_KEY = "CWB-31F2FF20-6F1C-46EA-A2F5-57B5DF78667C";
+const LOCATION_NAME = "臺北";
+
 const DayCloudy = styled(DayCloudyIcon)`
   flex-basis: 30%;
 `;
@@ -135,10 +138,18 @@ const theme = {
   },
 };
 
+// fetch current weather data
+const fetchingData = async () => {
+  const result = await fetch(
+    `https://opendata.cwb.gov.tw/api/v1/rest/datastore/O-A0003-001?Authorization=${AUTHORIZATION_KEY}&locationName=${LOCATION_NAME}`
+  );
+  return result.json();
+};
+
 function App() {
   const [currentTheme, setCurrentTheme] = useState("dark");
 
-  // 根據畫面所需要的資料欄位
+  // 根據畫面所需要的資料欄位與初始的資料
   const data = {
     locationName: "臺北市",
     description: "多雲時晴",
@@ -151,6 +162,30 @@ function App() {
 
   // 使用useState定義資料狀態
   const [currentWeather, setCurrentWeather] = useState(data);
+
+  // 定義需要的事件
+  const handleRefreshClicked = async () => {
+    const result = await fetchingData();
+    const locationData = result.records.location[0];
+    const neededElements = locationData.weatherElement.reduce(
+      (neededElements, item) => {
+        if (["WDSD", "TEMP"].includes(item.elementName)) {
+          neededElements[item.elementName] = item.elementValue;
+        }
+        return neededElements;
+      },
+      {}
+    );
+    setCurrentWeather({
+      locationName: locationData.locationName,
+      description: "多雲時晴",
+      temperature: neededElements["TEMP"],
+      weatherIcon: "",
+      windSpeed: neededElements["WDSD"],
+      rainPosibility: 48.3,
+      observationTime: locationData.time.obsTime,
+    });
+  };
 
   return (
     <ThemeProvider theme={theme[currentTheme]}>
@@ -179,7 +214,7 @@ function App() {
               hour: "numeric",
               minute: "numeric",
             }).format(dayjs(currentWeather.observationTime))}{" "}
-            <RefreshIcon />
+            <RefreshIcon onClick={handleRefreshClicked} />
           </Refresh>
         </WeatherCard>
       </Container>
