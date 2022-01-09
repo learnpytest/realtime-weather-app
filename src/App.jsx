@@ -1,5 +1,5 @@
 // import "./App.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import styled from "@emotion/styled";
 import { ThemeProvider } from "@emotion/react";
@@ -147,6 +147,7 @@ const fetchingData = async () => {
 };
 
 function App() {
+  console.log("invoke function component");
   const [currentTheme, setCurrentTheme] = useState("dark");
 
   // 根據畫面所需要的資料欄位與初始的資料
@@ -160,11 +161,16 @@ function App() {
     observationTime: "2022-01-09 18:40:00",
   };
 
+  useEffect(() => {
+    // fetchCurrentWeather();
+    console.log("execute function in useEffect");
+  }, []);
+
   // 使用useState定義資料狀態
   const [currentWeather, setCurrentWeather] = useState(data);
 
   // 定義需要的事件
-  const handleRefreshClicked = async () => {
+  const fetchCurrentWeather = async () => {
     const result = await fetchingData();
     const locationData = result.records.location[0];
     const neededElements = locationData.weatherElement.reduce(
@@ -189,6 +195,7 @@ function App() {
 
   return (
     <ThemeProvider theme={theme[currentTheme]}>
+      {console.log("render")}
       <Container>
         <WeatherCard>
           <Location>{currentWeather.locationName}</Location>
@@ -214,7 +221,7 @@ function App() {
               hour: "numeric",
               minute: "numeric",
             }).format(dayjs(currentWeather.observationTime))}{" "}
-            <RefreshIcon onClick={handleRefreshClicked} />
+            <RefreshIcon onClick={fetchCurrentWeather} />
           </Refresh>
         </WeatherCard>
       </Container>
