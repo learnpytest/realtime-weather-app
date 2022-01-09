@@ -4,6 +4,8 @@ import { useState } from "react";
 import styled from "@emotion/styled";
 import { ThemeProvider } from "@emotion/react";
 
+import dayjs from "dayjs";
+
 import { ReactComponent as DayCloudyIcon } from "./images/day-cloudy.svg";
 import { ReactComponent as AirFlowIcon } from "./images/airFlow.svg";
 import { ReactComponent as RainIcon } from "./images/rain.svg";
@@ -136,28 +138,47 @@ const theme = {
 function App() {
   const [currentTheme, setCurrentTheme] = useState("dark");
 
+  // 根據畫面所需要的資料欄位
+  const data = {
+    locationName: "臺北市",
+    description: "多雲時晴",
+    temperature: 17.6,
+    weatherIcon: "",
+    windSpeed: 3.2,
+    rainPosibility: 48.3,
+    observationTime: "2022-01-09 18:40:00",
+  };
+
+  // 使用useState定義資料狀態
+  const [currentWeather, setCurrentWeather] = useState(data);
+
   return (
     <ThemeProvider theme={theme[currentTheme]}>
       <Container>
         <WeatherCard>
-          <Location>台北市</Location>
-          <Description>多雲時晴</Description>
+          <Location>{currentWeather.locationName}</Location>
+          <Description>{currentWeather.description}</Description>
           <CurrentWeather>
             <Temperature>
-              23<Celsius>°C</Celsius>
+              {Math.round(currentWeather.temperature)}
+              <Celsius>°C</Celsius>
             </Temperature>
             <DayCloudy />
           </CurrentWeather>
           <AirFlow>
             <AirFlowIcon />
-            23 m/h
+            {currentWeather.windSpeed} m/h
           </AirFlow>
           <Rain>
             <RainIcon />
-            48%
+            {currentWeather.rainPosibility}%
           </Rain>
           <Refresh>
-            最後觀測時間: 上午 12:03
+            最後觀測時間:{" "}
+            {new Intl.DateTimeFormat("zh-TW", {
+              hour: "numeric",
+              minute: "numeric",
+            }).format(dayjs(currentWeather.observationTime))}{" "}
             <RefreshIcon />
           </Refresh>
         </WeatherCard>
