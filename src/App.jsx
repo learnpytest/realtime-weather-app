@@ -1,5 +1,5 @@
 // import "./App.css";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 
 import styled from "@emotion/styled";
 import { ThemeProvider, keyframes } from "@emotion/react";
@@ -168,23 +168,25 @@ function App() {
     isLoading: true,
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      setWeatherElement((prevState) => ({ ...prevState, isLoading: true }));
-      const currentWeather = await fetchCurrentWeather();
-      const weatherForecast = await fetchWeatherForecast();
-      setWeatherElement({
-        ...currentWeather,
-        ...weatherForecast,
-        isLoading: false,
-      });
-    };
-    fetchData();
-    console.log("execute function in useEffect");
-  }, []);
-
   // 使用useState定義資料狀態
   const [weatherElement, setWeatherElement] = useState(data);
+
+  // 定義事件
+  const fetchData = useCallback(async () => {
+    setWeatherElement((prevState) => ({ ...prevState, isLoading: true }));
+    const currentWeather = await fetchCurrentWeather();
+    const weatherForecast = await fetchWeatherForecast();
+    setWeatherElement({
+      ...currentWeather,
+      ...weatherForecast,
+      isLoading: false,
+    });
+  }, []);
+
+  useEffect(() => {
+    fetchData();
+    console.log("execute function in useEffect");
+  }, [fetchData]);
 
   const {
     locationName,
@@ -222,13 +224,7 @@ function App() {
             <RainIcon />
             {rainPosibility}%
           </Rain>
-          <Refresh
-            onClick={() => {
-              fetchCurrentWeather();
-              fetchWeatherForecast();
-            }}
-            isLoading={isLoading}
-          >
+          <Refresh onClick={fetchData} isLoading={isLoading}>
             最後觀測時間:{" "}
             {new Intl.DateTimeFormat("zh-TW", {
               hour: "numeric",
