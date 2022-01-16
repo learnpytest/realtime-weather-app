@@ -1,5 +1,7 @@
 import styled from "@emotion/styled";
 
+import { useMemo } from "react";
+
 import { ReactComponent as DayThunderstorm } from "./../images/day-thunderstorm.svg";
 import { ReactComponent as DayClear } from "./../images/day-clear.svg";
 import { ReactComponent as DayCloudyFog } from "./../images/day-cloudy-fog.svg";
@@ -48,8 +50,17 @@ const weatherIcons = {
   },
 };
 
-const weatherCode2Type = () => {
-  console.log(Object.entries(weatherTypes));
+const weatherCode2Type = (code) => {
+  // for (const [key, value] of Object.entries(weatherTypes)) {
+  //   if(value.includes(code)) {
+  //     type = key
+  //   }
+  // }
+  const [type] =
+    Object.entries(weatherTypes).find(([key, value]) =>
+      value.includes(Number(code))
+    ) || [];
+  return type;
 };
 
 const IconContainer = styled.div`
@@ -60,10 +71,18 @@ const IconContainer = styled.div`
   }
 `;
 
-const WeatherIcon = () => {
+const WeatherIcon = ({ weatherCode, moment }) => {
+  const weatherType = useMemo(
+    () => weatherCode2Type(weatherCode),
+    [weatherCode]
+  );
+
+  const weatherIcon = weatherIcons[moment][weatherType];
+
   return (
     <IconContainer>
-      <DayCloudy />
+      {weatherIcon}
+      {/* <DayCloudy /> */}
     </IconContainer>
   );
 };

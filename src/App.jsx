@@ -157,7 +157,7 @@ function App() {
     locationName: "",
     description: "",
     temperature: 0,
-    weatherCode: "",
+    weatherCode: 0,
     windSpeed: 0,
     rainPosibility: 0,
     observationTime: new Date(),
@@ -211,7 +211,7 @@ function App() {
               {Math.round(temperature)}
               <Celsius>°C</Celsius>
             </Temperature>
-            <WeatherIcon />
+            <WeatherIcon weatherCode={weatherCode} moment="night" />
           </WeatherElement>
           <AirFlow>
             <AirFlowIcon />
