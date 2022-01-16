@@ -6,7 +6,8 @@ import { ThemeProvider, keyframes } from "@emotion/react";
 
 import dayjs from "dayjs";
 
-import { ReactComponent as DayCloudyIcon } from "./images/day-cloudy.svg";
+import WeatherIcon from "./components/WeatherIcon";
+
 import { ReactComponent as AirFlowIcon } from "./images/airFlow.svg";
 import { ReactComponent as RainIcon } from "./images/rain.svg";
 import { ReactComponent as RefreshIcon } from "./images/refresh.svg";
@@ -23,10 +24,6 @@ const rotate = keyframes`
   to {
     transform: rotate(360deg);
   }
-`;
-
-const DayCloudy = styled(DayCloudyIcon)`
-  flex-basis: 30%;
 `;
 
 const Container = styled.div`
@@ -214,7 +211,7 @@ function App() {
               {Math.round(temperature)}
               <Celsius>°C</Celsius>
             </Temperature>
-            <DayCloudy />
+            <WeatherIcon />
           </WeatherElement>
           <AirFlow>
             <AirFlowIcon />
