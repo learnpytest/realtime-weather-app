@@ -1,4 +1,5 @@
-// import "./App.css";
+import { getMoment } from "./utils/helpers";
+
 import { useState, useEffect, useCallback } from "react";
 
 import styled from "@emotion/styled";
@@ -15,6 +16,9 @@ import { ReactComponent as LoadingIcon } from "./images/loading.svg";
 
 import { fetchCurrentWeather } from "./utils/fetchCurrentWeather";
 import { fetchWeatherForecast } from "./utils/fetchWeatherForecast";
+
+import { LOCATION_NAME_FORECAST } from "./utils/config";
+import { useMemo } from "react/cjs/react.development";
 
 const rotate = keyframes`
   from {
@@ -150,7 +154,18 @@ const theme = {
 
 function App() {
   console.log("invoke function component");
-  const [currentTheme, setCurrentTheme] = useState("dark");
+
+  // 取得使用者地區的時間是白天還是晚上
+  const moment = useMemo(
+    () => getMoment(LOCATION_NAME_FORECAST),
+    [LOCATION_NAME_FORECAST]
+  );
+
+  const [currentTheme, setCurrentTheme] = useState("light");
+
+  useEffect(() => {
+    setCurrentTheme(moment === "day" ? "light" : "dark");
+  }, [moment]);
 
   // 根據畫面所需要的資料欄位與初始的資料
   const data = {
@@ -211,7 +226,7 @@ function App() {
               {Math.round(temperature)}
               <Celsius>°C</Celsius>
             </Temperature>
-            <WeatherIcon weatherCode={weatherCode} moment="night" />
+            <WeatherIcon weatherCode={weatherCode} moment={moment} />
           </WeatherElement>
           <AirFlow>
             <AirFlowIcon />
