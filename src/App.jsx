@@ -57,6 +57,11 @@ function App() {
   // 定義使用者看到哪一個頁面
   const [currentPage, setCurrentPage] = useState("WeatherCard");
 
+  // 定義事件
+  const handleCurrentPageChange = (currentPage) => {
+    setCurrentPage(currentPage);
+  };
+
   // 取得使用者地區的時間是白天還是晚上
   const moment = useMemo(
     () => getMoment(LOCATION_NAME_FORECAST),
@@ -77,9 +82,12 @@ function App() {
             weatherElement={weatherElement}
             moment={moment}
             fetchData={fetchData}
+            handleCurrentPageChange={handleCurrentPageChange}
           />
         )}
-        {currentPage === "WeatherSetting" && <WeatherSetting />}
+        {currentPage === "WeatherSetting" && (
+          <WeatherSetting handleCurrentPageChange={handleCurrentPageChange} />
+        )}
       </Container>
     </ThemeProvider>
   );

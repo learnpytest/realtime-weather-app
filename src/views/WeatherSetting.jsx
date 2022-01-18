@@ -2,6 +2,8 @@ import React from "react";
 import styled from "@emotion/styled";
 import { availableLocations } from "./../utils/helpers";
 
+import { ReactComponent as CogIcon } from "../images/cog.svg";
+
 const WeatherSettingWrapper = styled.div`
   position: relative;
   min-width: 360px;
@@ -9,6 +11,15 @@ const WeatherSettingWrapper = styled.div`
   background-color: ${({ theme }) => theme.foregroundColor};
   box-sizing: border-box;
   padding: 20px;
+`;
+
+const Cog = styled(CogIcon)`
+  position: absolute;
+  top: 30px;
+  right: 15px;
+  width: 15px;
+  height: 15px;
+  cursor: pointer;
 `;
 
 const Title = styled.div`
@@ -90,9 +101,10 @@ const Save = styled.button`
   }
 `;
 
-function WeatherSetting() {
+function WeatherSetting({ handleCurrentPageChange }) {
   return (
     <WeatherSettingWrapper>
+      <Cog onClick={() => handleCurrentPageChange("WeatherCard")} />
       <Title>設定</Title>
       <StyledLabel htmlFor="location">地區</StyledLabel>
       <StyledSelect id="location" name="location">
