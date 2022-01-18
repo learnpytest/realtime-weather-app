@@ -1,18 +1,22 @@
-  import {
-    AUTHORIZATION_KEY,
-    LOCATION_NAME_FORECAST
-  } from "./config"
-
-  const fetchingForecastWeather = async () => {
+  const fetchingForecastWeather = async ({
+    authorizationKey,
+    cityName
+  }) => {
     const result = await fetch(
-      `https://opendata.cwb.gov.tw/api/v1/rest/datastore/F-C0032-001?Authorization=${AUTHORIZATION_KEY}&locationName=${LOCATION_NAME_FORECAST}`
+      `https://opendata.cwb.gov.tw/api/v1/rest/datastore/F-C0032-001?Authorization=${authorizationKey}&locationName=${cityName}`
     );
 
     return result.json();
   };
 
-  export const fetchWeatherForecast = async () => {
-    const responseOfWeatherForecast = await fetchingForecastWeather();
+  export const fetchWeatherForecast = async ({
+    authorizationKey,
+    cityName
+  }) => {
+    const responseOfWeatherForecast = await fetchingForecastWeather({
+      authorizationKey,
+      cityName
+    });
     const forecastLocationData = responseOfWeatherForecast.records.location[0];
     const neededForecastElements = forecastLocationData.weatherElement.reduce(
       (neededElements, item) => {
