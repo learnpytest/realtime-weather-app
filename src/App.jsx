@@ -11,7 +11,9 @@ import { useState, useEffect, useMemo } from "react";
 import styled from "@emotion/styled";
 import { ThemeProvider } from "@emotion/react";
 
+// pages
 import WeatherCard from "./views/WeatherCard";
+import WeatherSetting from "./views/WeatherSetting";
 
 const Container = styled.div`
   background-color: ${({ theme }) => theme.backgroundColor};
@@ -52,6 +54,9 @@ function App() {
   });
   const [currentTheme, setCurrentTheme] = useState("light");
 
+  // 定義使用者看到哪一個頁面
+  const [currentPage, setCurrentPage] = useState("WeatherCard");
+
   // 取得使用者地區的時間是白天還是晚上
   const moment = useMemo(
     () => getMoment(LOCATION_NAME_FORECAST),
@@ -67,11 +72,14 @@ function App() {
     <ThemeProvider theme={theme[currentTheme]}>
       {console.log("render")}
       <Container>
-        <WeatherCard
-          weatherElement={weatherElement}
-          moment={moment}
-          fetchData={fetchData}
-        />
+        {currentPage === "WeatherCard" && (
+          <WeatherCard
+            weatherElement={weatherElement}
+            moment={moment}
+            fetchData={fetchData}
+          />
+        )}
+        {currentPage === "WeatherSetting" && <WeatherSetting />}
       </Container>
     </ThemeProvider>
   );
