@@ -44,7 +44,8 @@ const theme = {
 function App() {
   console.log("invoke function component");
   // 使用useState定義資料狀態
-  const [currentCity, setCurrentCity] = useState("臺北市");
+  const storageCity = localStorage.getItem("cityName") || "臺北市";
+  const [currentCity, setCurrentCity] = useState(storageCity);
   const [currentTheme, setCurrentTheme] = useState("light");
   // 定義使用者看到哪一個頁面
   const [currentPage, setCurrentPage] = useState("WeatherCard");

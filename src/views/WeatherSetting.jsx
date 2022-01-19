@@ -115,6 +115,7 @@ function WeatherSetting({
   };
 
   const handleSaveLocationName = async () => {
+    localStorage.setItem("cityName", locationName);
     handleCurrentCityChange(locationName);
     handleCurrentPageChange("WeatherCard");
   };
