@@ -3,6 +3,7 @@
     "main.css": "/realtime-weather-app/static/css/main.7bb18d4a.css",
     "main.js": "/realtime-weather-app/static/js/main.a0e40ffe.js",
     "static/js/787.1a626c8e.chunk.js": "/realtime-weather-app/static/js/787.1a626c8e.chunk.js",
+    "service-worker.js": "/realtime-weather-app/service-worker.js",
     "static/media/day-snowing.svg": "/realtime-weather-app/static/media/day-snowing.ba1cbc7669611ee425e874e171d02e70.svg",
     "static/media/night-snowing.svg": "/realtime-weather-app/static/media/night-snowing.f00de84c0d9bed3a871ecc6fdd79f1ca.svg",
     "static/media/day-thunderstorm.svg": "/realtime-weather-app/static/media/day-thunderstorm.c1e5aabc2d813feeb2e535cff2b025ee.svg",
