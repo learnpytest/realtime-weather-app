@@ -129,12 +129,12 @@ const Refresh = styled.div`
 
 function WeatherCard({
   weatherElement,
+  cityName,
   moment,
   fetchData,
   handleCurrentPageChange,
 }) {
   const {
-    locationName,
     description,
     temperature,
     weatherCode,
@@ -148,7 +148,7 @@ function WeatherCard({
   return (
     <WeatherCardWrapper>
       <Cog onClick={() => handleCurrentPageChange("WeatherSetting")} />
-      <Location>{locationName}</Location>
+      <Location>{cityName}</Location>
       <Description>
         {description} {comfortability}
       </Description>

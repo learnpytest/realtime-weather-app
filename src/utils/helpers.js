@@ -129,3 +129,7 @@ export const availableLocations = [{
     sunriseCityName: '新北市',
   },
 ];
+
+export const findLocation = (currentCity) => {
+  return availableLocations.find(location => currentCity === location.cityName)
+}

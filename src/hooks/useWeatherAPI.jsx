@@ -1,7 +1,7 @@
 import { fetchCurrentWeather } from "../utils/fetchCurrentWeather";
 import { fetchWeatherForecast } from "../utils/fetchWeatherForecast";
 
-import { useState, useEffect, useCallback, useReducer } from "react";
+import { useState, useEffect, useCallback } from "react";
 
 // 根據畫面所需要的資料欄位與初始的資料
 const data = {
@@ -33,7 +33,7 @@ const useWeatherAPi = ({ locationName, cityName, authorizationKey }) => {
       ...weatherForecast,
       isLoading: false,
     });
-  }, []); // 這邊進行了依賴欺騙，因此 setWeatherElement 用 function 的方式回傳新的 weatherElement 的值
+  }, [authorizationKey, locationName, cityName]); // setWeatherElement 用 function 的方式回傳新的 weatherElement 的值
 
   useEffect(() => {
     console.log("execute function in useEffect");
